@@ -1,3 +1,5 @@
+import fs from 'fs';
+
 const postSubmitHandler = async (req, res) => {
     if (req.method = 'POST') {
         const email = req.body.email;
