@@ -1,8 +1,19 @@
 import fs from 'fs';
 import path from 'path';
 
+const getFeedbackPath = () => {
+    return path.join(process.cwd(), 'data', 'database.json');
+};
+
+const extractFeedback = (filePath) => {
+    const fileData = fs.readFileSync(filePath);
+    const data = JSON.parse(fileData);
+
+    return data;
+};
+
 const postSubmitHandler = async (req, res) => {
-    if (req.method = 'POST') {
+    if (req.method === 'POST') {
         const email = req.body.email;
         const feedbackText = req.body.text;
 
@@ -12,15 +23,21 @@ const postSubmitHandler = async (req, res) => {
             text: feedbackText
         };
 
-        const filePath = path.join(process.cwd(), 'data', 'database.json');
-        // First we need to read the content of the file inside
-        const fileData = fs.readFileSync(filePath);
-        const data = JSON.parse(fileData);
-        data.push(newSubmitData);
-        fs.writeFileSync(filePath, JSON.stringify(data));
-        res.status(201).json({ message: 'Success!', feedback: newSubmitData });
+        const filePath = getFeedbackPath();
+        const databaseData = extractFeedback(filePath);
+
+        databaseData.push(newSubmitData);
+
+        fs.writeFileSync(filePath, JSON.stringify(databaseData));
+        // 201 stands for created
+        // A 201 status code indicates that a request was successful and as a result, a resource has been created (for example a new page).
+        res.status(201).json({ message: 'Success!', newData: newSubmitData });
     } else {
-       res.status(200).json({ message: 'Data Sent!' }); 
+        const filePath = getFeedbackPath();
+        const databaseData = extractFeedback(filePath);
+        // 200 stands for OK.
+        // It means, simply, that the request was received and understood and is being processed.
+        res.status(200).json({ allDatabase: databaseData });
     }
 };
 

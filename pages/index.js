@@ -1,6 +1,8 @@
-import { useRef } from "react";
+import { useRef, useState } from "react";
 
 const HomePage = () => {
+  const [allData, setAllData] = useState([]);
+
   const emailInputRef = useRef();
   const feedbackInputRef = useRef();
 
@@ -12,7 +14,7 @@ const HomePage = () => {
 
     const res = await fetch('/api', {
       method: 'POST',
-      body: JSON.stringify({ email: enteredEmail ,text: enteredFeedback }),
+      body: JSON.stringify({ email: enteredEmail, text: enteredFeedback }),
       headers: {
         'Content-Type': 'application/json'
       }
@@ -26,21 +28,35 @@ const HomePage = () => {
     // fetch().then(res => res.json()).then(data => console.log(data))
   };
 
+  const loadDatabase = () => {
+    fetch('/api').then(res => res.json()).then(data => {
+      // setAllData(data.feedback);
+      console.log(data.allDatabase);
+    });
+  };
+
+  
+
   return (
-    <div>
-      <h1>The Home Page</h1>
-      <form onSubmit={formSubmitHandler}>
-        <div>
-          <label htmlFor="email">Your Email Address</label>
-          <input type="email" id="email" ref={emailInputRef} />
-        </div>
-        <div>
-          <label htmlFor="feedback">Your Feedback</label>
-          <textarea id="feedback" rows="5" ref={feedbackInputRef} />
-        </div>
-        <button>Send</button>
-      </form>
-    </div>
+    <>
+      <div>
+        <h1>The Home Page</h1>
+        <form onSubmit={formSubmitHandler}>
+          <div>
+            <label htmlFor="email">Your Email Address</label>
+            <input type="email" id="email" ref={emailInputRef} />
+          </div>
+          <div>
+            <label htmlFor="feedback">Your Feedback</label>
+            <textarea id="feedback" rows="5" ref={feedbackInputRef} />
+          </div>
+          <button>Send</button>
+        </form>
+      </div>
+      <hr />
+      {/* <div>{allData}</div> */}
+      <button onClick={loadDatabase}>Load</button>
+    </>
   );
 }
 
