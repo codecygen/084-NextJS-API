@@ -4,14 +4,26 @@ const HomePage = () => {
   const emailInputRef = useRef();
   const feedbackInputRef = useRef();
 
-  const formSubmitHandler = (e) => {
+  const formSubmitHandler = async (e) => {
     e.preventDefault();
 
     const enteredEmail = emailInputRef.current.value;
     const enteredFeedback = feedbackInputRef.current.value;
 
-    console.log(enteredEmail);
-    console.log(enteredFeedback);
+    const res = await fetch('/api', {
+      method: 'POST',
+      body: JSON.stringify({ email: enteredEmail ,text: enteredFeedback }),
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    });
+
+    const data = await res.json();
+
+    console.log(data);
+
+    // Alternatively
+    // fetch().then(res => res.json()).then(data => console.log(data))
   };
 
   return (
