@@ -5,7 +5,11 @@ import { getFeedbackPath, extractFeedback } from "../api";
 const FeedbackPage = (props) => {
     console.log(props.data);
 
-    const allTextList = props.data.map(list => <li key={list.id}>{list.text}</li>);
+    const allTextList = props.data.map(list =>
+        <li key={list.id}>
+            {list.text} <button>Show Details</button>
+        </li>
+    );
 
     return (
         <ul>{allTextList}</ul>
