@@ -30,12 +30,13 @@ const HomePage = () => {
 
   const loadDatabase = () => {
     fetch('/api').then(res => res.json()).then(data => {
-      // setAllData(data.feedback);
-      console.log(data.allDatabase);
+      setAllData(data.allDatabase);
     });
   };
 
-  
+  const allDataText = allData.map(data => (
+    <li key={data.id}>{data.text}</li>
+  ));
 
   return (
     <>
@@ -56,6 +57,7 @@ const HomePage = () => {
       <hr />
       {/* <div>{allData}</div> */}
       <button onClick={loadDatabase}>Load</button>
+      <ul>{allDataText}</ul>
     </>
   );
 }
