@@ -7,6 +7,7 @@
 - **localhost:3000** (Page to POST data and GET text messages from database)
 - **localhost:3000/feedback** (Shows text messages as a List)
 - **localhost:3000/api** (Shows Database)
+- **localhost:3000/api/someID** (Request the database entry with given ID)
 
 # NextJS - API Notes
 - All backend API files will be stored in **/pages/api/**
@@ -14,3 +15,5 @@
 - **localhost:3000** designed to have email address and feedback field. Once sent, it will write the data to **/data/database.json**
 - The database data can be requested by going to **localhost:3000/api**
 - getStaticProps function can connect to API file. **/pages/feedback/index.js** has getStaticProps which can connect to **/pages/api/index.js**
+- API section can also have dynamic file name, which pretty much works like a dynamic page and the data can be accessed by req.query.id.
+- Slugs can also be used in API folder just like page creation [...slug].js.
